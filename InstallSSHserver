@@ -1,0 +1,43 @@
+PS Run As Admin (sudo) : https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc771525(v=ws.11)?redirectedfrom=MSDN
+    runas /user:DESKTOP-5O5A6GM\evan ls
+    runas /user:Administrator myCommand
+    runas "/user:First Last" "my command"
+
+
+Install Winget:
+    https://docs.microsoft.com/en-us/windows/package-manager/winget/    
+
+
+Install Open SSH :
+    https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse
+    https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/ssh-remoting-in-powershell-core?view=powershell-7.1
+    PS => Run As Administrator:
+        C:\Windows\System32\OpenSSH
+        Get-WindowsCapability -Online | ? Name -like 'OpenSSH*'
+        # Install the OpenSSH Client
+        Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
+
+        # Install the OpenSSH Server
+        Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0   
+    
+        # Start the sshd service
+        Start-Service sshd
+
+        # OPTIONAL but recommended:
+        Set-Service -Name sshd -StartupType 'Automatic'
+
+        # Confirm the firewall rule is configured. It should be created automatically by setup.
+        Get-NetFirewallRule -Name *ssh*
+
+        # There should be a firewall rule named "OpenSSH-Server-In-TCP", which should be enabled
+        New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+
+        ssh loginName@192.168.1.213
+
+=================================================
+Powershell Script:
+    https://docs.microsoft.com/en-us/powershell/scripting/samples/sample-scripts-for-administration?view=powershell-7.1
+
+
+Powershel Commands:
+    https://www.spguides.com/powershell-examples/
